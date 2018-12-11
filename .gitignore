@@ -35,6 +35,7 @@ Thumbs.db
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 .ipynb_checkpoints/
+*checkpoint.ipynb
 
 #for the pycache
 *.pyc
