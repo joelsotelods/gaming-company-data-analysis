@@ -12,10 +12,9 @@ Like many others in its genre, the game is free-to-play, but players are encoura
 ---
 ## Report
 
-The below script provides an analytic approach for assessing American preferences of Italian vs. Mexican food. Using data from the US Census and the Yelp API, the script randomly selects over 500 zip codes and aggregates Yelp reviews from the 20 most popular Italian and Mexican restaurants in each area. The data is then parsed and analyzed using Python Pandas and Matplotlib.
+The below script provides an analytic approach for the information of sales of optional items on the Heroes of Pymoli video game. The data was loaded from a csv, then parsed and analyzed using Python Pandas.
 
-
-Click here to see the [Solution](HeroesOfPymoli.ipynb).
+Click here to see the [Solution code](HeroesOfPymoli.ipynb).
 
 ```python
 # Dependencies and Setup
@@ -124,6 +123,13 @@ genders
 
 ### Purchasing Analysis (Gender)
 
+* The below each broken by gender
+  * Purchase Count
+  * Average Purchase Price
+  * Total Purchase Value
+  * Average Purchase Total per Person by Gender
+
+
 ```python
 gender_analysys = purchase_data.groupby('Gender').agg({'Purchase ID': 'count', 'Price': ['mean','sum'], 'Gender': 'count'})
 
@@ -143,12 +149,6 @@ gender_report = gender_analysys[['Purchase Count','Average Purchase Price','Tota
 
 gender_report
 ```
-
-* The below each broken by gender
-  * Purchase Count
-  * Average Purchase Price
-  * Total Purchase Value
-  * Average Purchase Total per Person by Gender
 
 
 |                       |   Purchase Count | Average Purchase Price   | Total Purchase Value   | Avg Total Purchase per Person   |
@@ -353,24 +353,8 @@ profitable_items.head()
 
 
 
-
-
-# Example report
----
-
-## Zip Code Sampling
-
-## Yelp Data Retrieval
-
-## Calculate Summaries
-
-## Display Summary of Results
-
-
-
 ## Conclusions
----
 
-Based on our analysis, it is clear that the American preference for Italian and Mexican food are similar in nature. As a whole, Americans rate Mexican and Italian restaurants at statistically similar scores (Avg score: 3.8, p-value: 0.285). However, there  exists statistically significant evidence that Americans write more reviews of Italian restaurants than Mexican. This may indicate that there is an increased interest in visiting Italian restaurants at an experiential level. However, it may also merely suggest that Yelp users enjoy writing reviews on Italian restaurants more than Mexican restaurants.
+ <> (Based on our analysis, it is clear that the American preference for Italian and Mexican food are similar in nature. As a whole, Americans rate Mexican and Italian restaurants at statistically similar scores (Avg score: 3.8, p-value: 0.285). However, there  exists statistically significant evidence that Americans write more reviews of Italian restaurants than Mexican. This may indicate that there is an increased interest in visiting Italian restaurants at an experiential level. However, it may also merely suggest that Yelp users enjoy writing reviews on Italian restaurants more than Mexican restaurants.) 
 
 * You must include a written description of three observable trends based on the data.
