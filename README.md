@@ -16,7 +16,7 @@ The below script provides an analytic approach for the information of sales of o
 
 Click here to see the [Solution code](HeroesOfPymoli.ipynb).
 
-#### Python Code:
+##### Code:
 
 ```python
 # Dependencies and Setup
@@ -45,7 +45,7 @@ purchase_data.head()
 
 * Total Number of Players
 
-#### Code:
+##### Code:
 
 ```python
 #Get number of players by groupyin by User Name and then getting the unique and counting them.
@@ -56,7 +56,7 @@ df = pd.DataFrame([[num_players]], columns=['Total Players'])
 
 df.head()
 ```
-#### DataFrame output:
+##### DataFrame Output:
 |   Total Players |
 |-----------------|
 |             576 |
@@ -69,6 +69,7 @@ df.head()
 * Total Number of Purchases
 * Total Revenue 
 
+##### Code:
 ```python
 num_unique_items = purchase_data.groupby('Item ID')['Item ID'].nunique().count()
 average_price = purchase_data['Price'].mean()
@@ -82,7 +83,7 @@ df = pd.DataFrame([data], columns=['Number of Unique Items','Average Price', 'Nu
 
 df
 ```
-
+##### DataFrame Output:
 |   Number of Unique Items | Average Price   |   Number of Purchases | Total Revenue   |
 |--------------------------|-----------------|-----------------------|-----------------|
 |                      183 | $3.05           |                   780 | $2,379.77       |
@@ -94,7 +95,7 @@ df
 * Percentage and Count of Female Players
 * Percentage and Count of Other / Non-Disclosed
 
-
+##### Code:
 ```python
 genders = purchase_data.groupby(['Gender','SN'])['Gender','SN'].count()
 
@@ -117,7 +118,7 @@ genders = genders.sort_values(by=['Total Count'] , ascending=False).head()
 genders
 ```
 
-
+##### DataFrame Output:
 |                       |   Total Count |   Percentage of Players |
 |-----------------------|---------------|-------------------------|
 | **Male**                  |           484 |                   84.03 |
@@ -133,7 +134,7 @@ genders
   * Total Purchase Value
   * Average Purchase Total per Person by Gender
 
-
+##### Code:
 ```python
 gender_analysys = purchase_data.groupby('Gender').agg({'Purchase ID': 'count', 'Price': ['mean','sum'], 'Gender': 'count'})
 
@@ -154,7 +155,7 @@ gender_report = gender_analysys[['Purchase Count','Average Purchase Price','Tota
 gender_report
 ```
 
-
+##### DataFrame Output:
 |                       |   Purchase Count | Average Purchase Price   | Total Purchase Value   | Avg Total Purchase per Person   |
 |-----------------------|------------------|--------------------------|------------------------|---------------------------------|
 | **Female**                |              113 | $3.20                    | $361.94                | $4.47                           |
@@ -170,7 +171,7 @@ gender_report
   * Total Purchase Value
   * Average Purchase Total per Person by Age Group
 
-
+##### Code:
 ```python
 bins = [0, 9, 14, 19, 24, 29, 34, 39, 1000]
 
@@ -200,7 +201,7 @@ groups_xxx['Percentage of Players'] =  np.around( (groups_xxx['Total Count']/num
 
 groups_xxx[['Total Count','Percentage of Players']]
 ```
-
+##### DataFrame Output:
 |       |   Total Count |   Percentage of Players |
 |-------|---------------|-------------------------|
 | **<10**   |            17 |                    2.95 |
@@ -220,6 +221,7 @@ groups_xxx[['Total Count','Percentage of Players']]
   * Total Purchase Value
   * Average Purchase Total per Person by Age
 
+##### Code:
 ```python
 bins = [0, 9, 14, 19, 24, 29, 34, 39, 1000]
 
@@ -249,6 +251,7 @@ groups_xxx_ps_report = groups_xxx_ps[['Purchase Count','Average Purchase Price',
 groups_xxx_ps_report
 ```
 
+##### DataFrame Output:
 | Age   |   Purchase Count | Average Purchase Price   | Total Purchase Value   | Avg Total Purchase per Person   |
 |-------|------------------|--------------------------|------------------------|---------------------------------|
 | **<10**   |               23 | $3.35                    | $77.13                 | $4.54                           |
@@ -268,6 +271,7 @@ groups_xxx_ps_report
   * Average Purchase Price
   * Total Purchase Value
 
+##### Code:
 ```python
 top_spenders = purchase_data.groupby(['SN']).agg({'Purchase ID': 'count', 'Price': ['mean','sum']})
 
@@ -284,7 +288,7 @@ top_spenders['Total Purchase Value'] = top_spenders.apply(lambda x: "${:,.2f}".f
 top_spenders.head()
 ```
 
-
+##### DataFrame Output:
 | SN          |   Purchase Count | Average Purchase Price   | Total Purchase Value   |
 |-------------|------------------|--------------------------|------------------------|
 | **Lisosia93**   |                5 | $3.79                    | $18.96                 |
@@ -293,6 +297,7 @@ top_spenders.head()
 | **Iral74**      |                4 | $3.40                    | $13.62                 |
 | **Iskadarya95** |                3 | $4.37                    | $13.10                 |
 | **Ilarin91**    |                3 | $4.23                    | $12.70                 |
+
 
 ### Most Popular Items
 
@@ -303,6 +308,7 @@ top_spenders.head()
   * Item Price
   * Total Purchase Value
 
+##### Code:
 ```python
 sales_by_item = purchase_data.groupby(['Item ID','Item Name']).agg({'Purchase ID': 'count', 'Price': ['max','sum']})
 
@@ -318,7 +324,7 @@ popular_items['Total Purchase Value'] = popular_items.apply(lambda x: "${:,.2f}"
 popular_items.head()
 ```
 
-
+##### DataFrame Output:
 |   Item ID | Item Name                                    |   Purchase Count | Item Price   | Total Purchase Value   |
 |-----------|----------------------------------------------|------------------|--------------|------------------------|
 |       **178** | **Oathbreaker, Last Hope of the Breaking Storm** |               12 | $4.23        | $50.76                 |
@@ -327,6 +333,7 @@ popular_items.head()
 |        **82** | **Nirvana**                                      |                9 | $4.90        | $44.10                 |
 |        **19** | **Pursuit, Cudgel of Necromancy**                |                8 | $1.02        | $8.16                  |
 |       **103** | **Singed Scalpel**                              |                8 | $4.35        | $34.80                 |
+
 
 ### Most Profitable Items
 
@@ -337,6 +344,8 @@ popular_items.head()
   * Item Price
   * Total Purchase Value
 
+
+##### Code:
 ```python
 profitable_items = sales_by_item.sort_values('Total Purchase Value', ascending=False)
 
@@ -346,6 +355,7 @@ profitable_items['Total Purchase Value'] = profitable_items.apply(lambda x: "${:
 profitable_items.head()
 ```
 
+##### DataFrame Output:
 |   Item ID | Item Name                                    |   Purchase Count | Item Price   | Total Purchase Value   |
 |-----------|----------------------------------------------|------------------|--------------|------------------------|
 |       **178** | **Oathbreaker, Last Hope of the Breaking Storm** |               12 | $4.23        | $50.76                 |
