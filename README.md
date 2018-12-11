@@ -19,6 +19,11 @@ Your final report should include each of the following:
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Total Players</th>   </tr>  </thead>  <tbody>    <tr>      <th>0</th>     <td>576</td>   </tr>  </tbody></table>
 </div>
 
+|Total Players|0|
+|--- |--- |
+|576|
+
+
 ### Purchasing Analysis (Total)
 
 * Number of Unique Items
@@ -30,6 +35,11 @@ Your final report should include each of the following:
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Number of Unique Items</th>      <th>Average Price</th>      <th>Number of Purchases</th>      <th>Total Revenue</th>    </tr>  </thead>  <tbody>    <tr>      <th>0</th>      <td>183</td>      <td>$3.05</td>      <td>780</td>      <td>$2,379.77</td>    </tr>  </tbody></table>
 </div>
 
+|Number of Unique Items|Average Price|Number of Purchases|Total Revenue|0|
+|--- |--- |--- |--- |--- |
+|183|$3.05|780|$2,379.77|
+
+
 ### Gender Demographics
 
 * Percentage and Count of Male Players
@@ -39,6 +49,13 @@ Your final report should include each of the following:
 <div>
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Total Count</th>      <th>Percentage of Players</th>    </tr>  </thead>  <tbody>    <tr>      <th>Male</th>      <td>484</td>      <td>84.03</td>    </tr>    <tr>      <th>Female</th>      <td>81</td>      <td>14.06</td>    </tr>    <tr>      <th>Other / Non-Disclosed</th>      <td>11</td>      <td>1.91</td>    </tr>  </tbody></table>
 </div>
+
+|Total Count|Percentage of Players|Male|Female|Other / Non-Disclosed|
+|--- |--- |--- |--- |--- |
+|484|84.03|
+|81|14.06|
+|11|1.91|
+
 
 ### Purchasing Analysis (Gender)
 
@@ -51,6 +68,13 @@ Your final report should include each of the following:
 <div>
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>Purchase Count</th>      <th>Average Purchase Price</th>      <th>Total Purchase Value</th>      <th>Avg Total Purchase per Person</th>    </tr>  </thead>  <tbody>    <tr>      <th>Female</th>      <td>113</td>      <td>$3.20</td>      <td>$361.94</td>      <td>$4.47</td>    </tr>    <tr>      <th>Male</th>      <td>652</td>      <td>$3.02</td>      <td>$1,967.64</td>      <td>$4.07</td>    </tr>    <tr>      <th>Other / Non-Disclosed</th>      <td>15</td>      <td>$3.35</td>      <td>$50.19</td>      <td>$4.56</td>    </tr>  </tbody></table>
 </div>
+
+#### Test
+| weekday   |   precipitation |   temperature |
+|-----------|-----------------|---------------|
+| **monday**    |             100 |            20 |
+| **thursday**  |             200 |            30 |
+| **wednesday** |             150 |            25 |
 
 ### Age Demographics
 
