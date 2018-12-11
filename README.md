@@ -16,6 +16,8 @@ The below script provides an analytic approach for the information of sales of o
 
 Click here to see the [Solution code](HeroesOfPymoli.ipynb).
 
+#### Python Code:
+
 ```python
 # Dependencies and Setup
 import pandas as pd
@@ -43,6 +45,8 @@ purchase_data.head()
 
 * Total Number of Players
 
+#### Code:
+
 ```python
 #Get number of players by groupyin by User Name and then getting the unique and counting them.
 num_players = purchase_data.groupby('SN')['SN'].nunique().count()
@@ -52,7 +56,7 @@ df = pd.DataFrame([[num_players]], columns=['Total Players'])
 
 df.head()
 ```
-
+#### DataFrame output:
 |   Total Players |
 |-----------------|
 |             576 |
