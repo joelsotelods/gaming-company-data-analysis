@@ -9,12 +9,50 @@ Congratulations! After a lot of hard work in the data munging mines, you've land
 
 Like many others in its genre, the game is free-to-play, but players are encouraged to purchase optional items that enhance their playing experience. As a first task, the company would like you to generate a report that breaks down the game's purchasing data into meaningful insights.
 
-Your final report should include each of the following:
+---
+## Report
+
+The below script provides an analytic approach for assessing American preferences of Italian vs. Mexican food. Using data from the US Census and the Yelp API, the script randomly selects over 500 zip codes and aggregates Yelp reviews from the 20 most popular Italian and Mexican restaurants in each area. The data is then parsed and analyzed using Python Pandas and Matplotlib.
+
+
+Click here to see the [Solution](HeroesOfPymoli.ipynb).
+
+```python
+# Dependencies and Setup
+import pandas as pd
+import numpy as np
+from tabulate import tabulate
+
+# File to Load (Remember to Change These)
+file_to_load = "Resources/purchase_data.csv"
+
+# Read Purchasing File and store into Pandas data frame
+purchase_data = pd.read_csv(file_to_load)
+
+purchase_data.head()
+
+# Tabulate code to export any data frame to MarkDown table
+#print(tabulate(df, tablefmt="pipe", headers="keys").replace('---:','----').replace(':---','----'))
+
+# Code to export DataFrame to html
+#df.to_html().replace("\n", "")
+```
+
+
 
 ### Player Count
 
 * Total Number of Players
 
+```python
+#Get number of players by groupyin by User Name and then getting the unique and counting them.
+num_players = purchase_data.groupby('SN')['SN'].nunique().count()
+
+#adding the total players count as a data frame to show it
+df = pd.DataFrame([[num_players]], columns=['Total Players'])
+
+df.head()
+```
 
 |   Total Players |
 |-----------------|
@@ -26,8 +64,21 @@ Your final report should include each of the following:
 * Number of Unique Items
 * Average Purchase Price
 * Total Number of Purchases
-* Total Revenue
+* Total Revenue 
 
+```python
+num_unique_items = purchase_data.groupby('Item ID')['Item ID'].nunique().count()
+average_price = purchase_data['Price'].mean()
+number_of_purchases = purchase_data.groupby('Purchase ID')['Purchase ID'].nunique().count()
+total_revenue = purchase_data['Price'].sum()
+
+data = [num_unique_items, f'${average_price:,.2f}',number_of_purchases,f'${total_revenue:,.2f}']
+
+#adding as a data frame to show it
+df = pd.DataFrame([data], columns=['Number of Unique Items','Average Price', 'Number of Purchases', 'Total Revenue'])
+
+df
+```
 
 |   Number of Unique Items | Average Price   |   Number of Purchases | Total Revenue   |
 |--------------------------|-----------------|-----------------------|-----------------|
@@ -41,6 +92,29 @@ Your final report should include each of the following:
 * Percentage and Count of Other / Non-Disclosed
 
 
+```python
+genders = purchase_data.groupby(['Gender','SN'])['Gender','SN'].count()
+
+genders.columns = ['sa','sd']
+
+genders= genders.reset_index()
+
+genders = genders.drop(columns=['sa','sd'])
+
+genders = genders.groupby(['Gender']).count()
+
+del genders.index.name
+
+genders.columns = ['Total Count']
+
+genders['Percentage of Players'] =  np.around( (genders['Total Count']/num_players)*100 , decimals=2)
+
+genders = genders.sort_values(by=['Total Count'] , ascending=False).head()
+
+genders
+```
+
+
 |                       |   Total Count |   Percentage of Players |
 |-----------------------|---------------|-------------------------|
 | **Male**                  |           484 |                   84.03 |
@@ -49,6 +123,26 @@ Your final report should include each of the following:
 
 
 ### Purchasing Analysis (Gender)
+
+```python
+gender_analysys = purchase_data.groupby('Gender').agg({'Purchase ID': 'count', 'Price': ['mean','sum'], 'Gender': 'count'})
+
+gender_analysys.columns = gender_analysys.columns.droplevel()
+
+gender_analysys.columns = ['Purchase Count', 'Average Purchase Price', 'Total Purchase Value', 'Persons by Purchase']
+
+gender_analysys = pd.merge(gender_analysys, genders, left_index=True, right_index=True)
+
+gender_analysys['Avg Total Purchase per Person'] = gender_analysys['Total Purchase Value']/gender_analysys['Total Count']
+
+gender_analysys['Average Purchase Price'] = gender_analysys.apply(lambda x: "${:,.2f}".format(x['Average Purchase Price']), axis=1)
+gender_analysys['Total Purchase Value'] = gender_analysys.apply(lambda x: "${:,.2f}".format(x['Total Purchase Value']), axis=1)
+gender_analysys['Avg Total Purchase per Person'] = gender_analysys.apply(lambda x: "${:,.2f}".format(x['Avg Total Purchase per Person']), axis=1)
+
+gender_report = gender_analysys[['Purchase Count','Average Purchase Price','Total Purchase Value','Avg Total Purchase per Person']]
+
+gender_report
+```
 
 * The below each broken by gender
   * Purchase Count
@@ -73,6 +167,36 @@ Your final report should include each of the following:
   * Average Purchase Total per Person by Age Group
 
 
+```python
+bins = [0, 9, 14, 19, 24, 29, 34, 39, 1000]
+
+groups_xxx = purchase_data.groupby(['Age','SN'])['Age','SN'].count()
+
+groups_xxx.columns = ['sa','sd']
+
+groups_xxx= groups_xxx.reset_index()
+
+groups_xxx = groups_xxx.drop(columns=['sa','sd'])
+
+groups_xxx = groups_xxx.groupby(['Age']).count()
+
+groups_xxx= groups_xxx.reset_index()
+
+groups_xxx.columns = ['Age','Total Count']
+
+bins = pd.cut(groups_xxx['Age'], bins, labels=['<10', '10-14', '15-19', '20-24', '25-29', '30-34','35-39','40+'])
+
+groups_xxx = groups_xxx.groupby(bins).agg(['sum'])
+
+groups_xxx.columns = groups_xxx.columns.droplevel(1)
+
+del groups_xxx.index.name
+
+groups_xxx['Percentage of Players'] =  np.around( (groups_xxx['Total Count']/num_players)*100 , decimals=2)
+
+groups_xxx[['Total Count','Percentage of Players']]
+```
+
 |       |   Total Count |   Percentage of Players |
 |-------|---------------|-------------------------|
 | **<10**   |            17 |                    2.95 |
@@ -86,12 +210,40 @@ Your final report should include each of the following:
 
 ## Purchasing Analysis (Age)
 
-* Bin the purchase_data data frame by age
-* Run basic calculations to obtain purchase count, avg. purchase price, avg. purchase total per person etc. in the table below
-* Create a summary data frame to hold the results
-* Optional: give the displayed data cleaner formatting
-* Display the summary data frame
+* The below each broken by age
+  * Purchase Count
+  * Average Purchase Price
+  * Total Purchase Value
+  * Average Purchase Total per Person by Age
 
+```python
+bins = [0, 9, 14, 19, 24, 29, 34, 39, 1000]
+
+groups_xxx_ps = purchase_data[['Age', 'Purchase ID','Price']]
+
+bins = pd.cut(groups_xxx_ps['Age'], bins, labels=['<10', '10-14', '15-19', '20-24', '25-29', '30-34','35-39','40+'])
+
+groups_xxx_ps = groups_xxx_ps.groupby(bins).agg({'Purchase ID': 'count', 'Price':['sum','mean']})
+
+groups_xxx_ps.columns = groups_xxx_ps.columns.droplevel(1)
+
+groups_xxx_ps.columns = ['Purchase Count','Total Purchase Value', 'Average Purchase Price']
+
+groups_xxx_ps = pd.merge(groups_xxx_ps, groups_xxx[['Total Count','Percentage of Players']], left_index=True, right_index=True)
+
+
+groups_xxx_ps['Avg Total Purchase per Person'] = groups_xxx_ps['Total Purchase Value']/groups_xxx_ps['Total Count']
+
+groups_xxx_ps['Average Purchase Price'] = groups_xxx_ps.apply(lambda x: "${:,.2f}".format(x['Average Purchase Price']), axis=1)
+groups_xxx_ps['Total Purchase Value'] = groups_xxx_ps.apply(lambda x: "${:,.2f}".format(x['Total Purchase Value']), axis=1)
+groups_xxx_ps['Avg Total Purchase per Person'] = groups_xxx_ps.apply(lambda x: "${:,.2f}".format(x['Avg Total Purchase per Person']), axis=1)
+
+
+groups_xxx_ps_report = groups_xxx_ps[['Purchase Count','Average Purchase Price','Total Purchase Value','Avg Total Purchase per Person']]
+
+
+groups_xxx_ps_report
+```
 
 | Age   |   Purchase Count | Average Purchase Price   | Total Purchase Value   | Avg Total Purchase per Person   |
 |-------|------------------|--------------------------|------------------------|---------------------------------|
@@ -112,6 +264,23 @@ Your final report should include each of the following:
   * Average Purchase Price
   * Total Purchase Value
 
+```python
+top_spenders = purchase_data.groupby(['SN']).agg({'Purchase ID': 'count', 'Price': ['mean','sum']})
+
+top_spenders.columns = top_spenders.columns.droplevel(1)
+
+top_spenders.columns = ['Purchase Count','Average Purchase Price', 'Total Purchase Value']
+
+top_spenders = top_spenders.sort_values('Total Purchase Value', ascending=False)
+
+top_spenders['Average Purchase Price'] = top_spenders.apply(lambda x: "${:,.2f}".format(x['Average Purchase Price']), axis=1)
+top_spenders['Total Purchase Value'] = top_spenders.apply(lambda x: "${:,.2f}".format(x['Total Purchase Value']), axis=1)
+
+
+top_spenders.head()
+```
+
+
 | SN          |   Purchase Count | Average Purchase Price   | Total Purchase Value   |
 |-------------|------------------|--------------------------|------------------------|
 | **Lisosia93**   |                5 | $3.79                    | $18.96                 |
@@ -129,6 +298,22 @@ Your final report should include each of the following:
   * Purchase Count
   * Item Price
   * Total Purchase Value
+
+```python
+sales_by_item = purchase_data.groupby(['Item ID','Item Name']).agg({'Purchase ID': 'count', 'Price': ['max','sum']})
+
+sales_by_item.columns = sales_by_item.columns.droplevel(1)
+
+sales_by_item.columns = ['Purchase Count','Item Price', 'Total Purchase Value']
+
+popular_items = sales_by_item.sort_values('Purchase Count', ascending=False)
+
+popular_items['Item Price'] = popular_items.apply(lambda x: "${:,.2f}".format(x['Item Price']), axis=1)
+popular_items['Total Purchase Value'] = popular_items.apply(lambda x: "${:,.2f}".format(x['Total Purchase Value']), axis=1)
+
+popular_items.head()
+```
+
 
 |   Item ID | Item Name                                    |   Purchase Count | Item Price   | Total Purchase Value   |
 |-----------|----------------------------------------------|------------------|--------------|------------------------|
@@ -148,8 +333,14 @@ Your final report should include each of the following:
   * Item Price
   * Total Purchase Value
 
+```python
+profitable_items = sales_by_item.sort_values('Total Purchase Value', ascending=False)
 
-<
+profitable_items['Item Price'] = profitable_items.apply(lambda x: "${:,.2f}".format(x['Item Price']), axis=1)
+profitable_items['Total Purchase Value'] = profitable_items.apply(lambda x: "${:,.2f}".format(x['Total Purchase Value']), axis=1)
+
+profitable_items.head()
+```
 
 |   Item ID | Item Name                                    |   Purchase Count | Item Price   | Total Purchase Value   |
 |-----------|----------------------------------------------|------------------|--------------|------------------------|
@@ -160,28 +351,12 @@ Your final report should include each of the following:
 |       **103** | **Singed Scalpel**                               |                8 | $4.35        | $34.80                 |
 |        **59** | **Lightning, Etcher of the King**                |                8 | $4.23        | $33.84                 |
 
-## As final considerations:
-
-* You must use the Pandas Library and the Jupyter Notebook.
-* You must submit a link to your Jupyter Notebook with the viewable Data Frames.
-* You must include a written description of three observable trends based on the data.
-* See [Example Solution](HeroesOfPymoli/HeroesOfPymoli_starter.ipynb) for a reference on expected format.
-
 
 
 
 
 # Example report
 ---
-
-The below script provides an analytic approach for assessing American preferences of Italian vs. Mexican food. Using data from the US Census and the Yelp API, the script randomly selects over 500 zip codes and aggregates Yelp reviews from the 20 most popular Italian and Mexican restaurants in each area. The data is then parsed and analyzed using Python Pandas and Matplotlib.
-
-
-```python
-# Dependencies
-import numpy as np
-i
-```
 
 ## Zip Code Sampling
 
@@ -193,9 +368,9 @@ i
 
 
 
-
-
-
 ## Conclusions
 ---
+
 Based on our analysis, it is clear that the American preference for Italian and Mexican food are similar in nature. As a whole, Americans rate Mexican and Italian restaurants at statistically similar scores (Avg score: 3.8, p-value: 0.285). However, there  exists statistically significant evidence that Americans write more reviews of Italian restaurants than Mexican. This may indicate that there is an increased interest in visiting Italian restaurants at an experiential level. However, it may also merely suggest that Yelp users enjoy writing reviews on Italian restaurants more than Mexican restaurants.
+
+* You must include a written description of three observable trends based on the data.
