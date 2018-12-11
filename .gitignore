@@ -31,6 +31,8 @@ Thumbs.db
 
 #FolderName/
 
+.ipynb_checkpoints/
+
 #for the pycache
 *.pyc
 *.pyo
