@@ -12,9 +12,10 @@ Like many others in its genre, the game is free-to-play, but players are encoura
 ---
 ## Report
 
-The below script provides an analytic approach for the information of sales of optional items on the Heroes of Pymoli video game. The data was loaded from a csv, then parsed and analyzed using Python Pandas.
 
-Click here to see the [Solution code](HeroesOfPymoli.ipynb).
+The following script provides an analytical approach to the sales information of items in the Heroes of Pymoli video game store. The data was loaded from a csv, then parsed and analyzed using Python Pandas.
+
+Click here to see the Solution Code [HeroesOfPymoli.ipynb](HeroesOfPymoli.ipynb).
 
 ##### Initial Code:
 
@@ -369,10 +370,12 @@ profitable_items.head(6)
 
 ## Conclusions
 
-Based on our analysis, the following conclusions can be stated:
+Based on our analysis, the following conclusions can be established:
 
-* From the 576 unique users that Purchase something, the majority of them are from 20 to 24 years old (%44.79), however, 	The most profitable users are the ones between 35 to 39 years old, spending $4.76 aproximately by user, compaired to $4.32 spend by user on the range 20-24.
+* Of the 576 unique users who buy something in the Heroes of Pymoli store, most of them are between 20 and 24 years old (44.79%). However, the most profitable users are those between 35 and 39 years old, spending approximately $4.76 per user, compared to $4.32 spent per user in the 20-24 range.
 
-* *Nirvana* not only is among the most popular items, it is also one of the most profitables, beign $4.90.
+* *Nirvana* is not only among the most popular items, but it is also one of the most profitable, costing $ 4.90.
 
-* *Extraction, Quickblade Of Trembling Hands*, is the third most popular item on the store's game, and even though is not the most profitable, 9 purchases has made Heroes of Pymoli $31.77 bucks.
+*  is the third most popular item on the store's game, and even though is not the most profitable, 9 purchases has made Heroes of Pymoli $31.77 bucks.
+
+* Even though *Extraction, Quickblade Of Trembling Hands* is not the most profitable item on the store, this is the third most popular item on the store: 9 purchases have made $31.77 dollars to the owners of Heroes de Pymoli.
