@@ -376,6 +376,4 @@ Based on our analysis, the following conclusions can be established:
 
 * *Nirvana* is not only among the most popular items, but it is also one of the most profitable, costing $ 4.90.
 
-*  is the third most popular item on the store's game, and even though is not the most profitable, 9 purchases has made Heroes of Pymoli $31.77 bucks.
-
 * Even though *Extraction, Quickblade Of Trembling Hands* is not the most profitable item on the store, this is the third most popular item on the store: 9 purchases have made $31.77 dollars to the owners of Heroes de Pymoli.
