@@ -16,7 +16,7 @@ The below script provides an analytic approach for the information of sales of o
 
 Click here to see the [Solution code](HeroesOfPymoli.ipynb).
 
-##### Code:
+##### Initial Code:
 
 ```python
 # Dependencies and Setup
@@ -285,7 +285,7 @@ top_spenders['Average Purchase Price'] = top_spenders.apply(lambda x: "${:,.2f}"
 top_spenders['Total Purchase Value'] = top_spenders.apply(lambda x: "${:,.2f}".format(x['Total Purchase Value']), axis=1)
 
 
-top_spenders.head()
+top_spenders.head(6)
 ```
 
 ##### DataFrame Output:
@@ -321,7 +321,7 @@ popular_items = sales_by_item.sort_values('Purchase Count', ascending=False)
 popular_items['Item Price'] = popular_items.apply(lambda x: "${:,.2f}".format(x['Item Price']), axis=1)
 popular_items['Total Purchase Value'] = popular_items.apply(lambda x: "${:,.2f}".format(x['Total Purchase Value']), axis=1)
 
-popular_items.head()
+popular_items.head(6)
 ```
 
 ##### DataFrame Output:
@@ -352,7 +352,7 @@ profitable_items = sales_by_item.sort_values('Total Purchase Value', ascending=F
 profitable_items['Item Price'] = profitable_items.apply(lambda x: "${:,.2f}".format(x['Item Price']), axis=1)
 profitable_items['Total Purchase Value'] = profitable_items.apply(lambda x: "${:,.2f}".format(x['Total Purchase Value']), axis=1)
 
-profitable_items.head()
+profitable_items.head(6)
 ```
 
 ##### DataFrame Output:
@@ -369,6 +369,10 @@ profitable_items.head()
 
 ## Conclusions
 
- <> (Based on our analysis, it is clear that the American preference for Italian and Mexican food are similar in nature. As a whole, Americans rate Mexican and Italian restaurants at statistically similar scores (Avg score: 3.8, p-value: 0.285). However, there  exists statistically significant evidence that Americans write more reviews of Italian restaurants than Mexican. This may indicate that there is an increased interest in visiting Italian restaurants at an experiential level. However, it may also merely suggest that Yelp users enjoy writing reviews on Italian restaurants more than Mexican restaurants.) 
+Based on our analysis, the following conclusions can be stated:
 
-* You must include a written description of three observable trends based on the data.
+* From the 576 unique users that Purchase something, the majority of them are from 20 to 24 years old (%44.79), however, 	The most profitable users are the ones between 35 to 39 years old, spending $4.76 aproximately by user, compaired to $4.32 spend by user on the range 20-24.
+
+* *Nirvana* not only is among the most popular items, it is also one of the most profitables, beign $4.90.
+
+* *Extraction, Quickblade Of Trembling Hands*, is the third most popular item on the store's game, and even though is not the most profitable, 9 purchases has made Heroes of Pymoli $31.77 bucks.
